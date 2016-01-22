@@ -1,1 +1,158 @@
 
+import zipfile
+
+zip=zipfile.ZipFile('my_zip.zip')
+f=zip.open('my_txt_file.txt')
+contents=f.read()
+f.close()
+
+import zipfile
+
+for filename in [ 'README.txt', 'example.zip', 
+                  'bad_example.zip', 'notthere.zip' ]:
+    print '%20s  %s' % (filename, zipfile.is_zipfile(filename))
+    
+    
+    
+import datetime
+import zipfile
+
+def print_info(archive_name):
+    zf = zipfile.ZipFile(archive_name)
+    for info in zf.infolist():
+        print info.filename
+        print '\tComment:\t', info.comment
+        print '\tModified:\t', datetime.datetime(*info.date_time)
+        print '\tSystem:\t\t', info.create_system, '(0 = Windows, 3 = Unix)'
+        print '\tZIP version:\t', info.create_version
+        print '\tCompressed:\t', info.compress_size, 'bytes'
+        print '\tUncompressed:\t', info.file_size, 'bytes'
+        print
+
+if __name__ == '__main__':
+    print_info('example.zip')
+    
+    
+import zipfile
+
+zf = zipfile.ZipFile('example.zip')
+for filename in [ 'README.txt', 'notthere.txt' ]:
+    try:
+        info = zf.getinfo(filename)
+    except KeyError:
+        print 'ERROR: Did not find %s in zip file' % filename
+    else:
+        print '%s is %d bytes' % (info.filename, info.file_size)
+        
+from zipfile_infolist import print_info
+import zipfile
+
+print 'creating archive'
+zf = zipfile.ZipFile('zipfile_write.zip', mode='w')
+try:
+    print 'adding README.txt'
+    zf.write('README.txt')
+finally:
+    print 'closing'
+    zf.close()
+
+print
+print_info('zipfile_write.zip')
+
+
+
+from zipfile_infolist import print_info
+import zipfile
+try:
+    import zlib
+    compression = zipfile.ZIP_DEFLATED
+except:
+    compression = zipfile.ZIP_STORED
+
+modes = { zipfile.ZIP_DEFLATED: 'deflated',
+          zipfile.ZIP_STORED:   'stored',
+          }
+
+print 'creating archive'
+zf = zipfile.ZipFile('zipfile_write_compression.zip', mode='w')
+try:
+    print 'adding README.txt with compression mode', modes[compression]
+    zf.write('README.txt', compress_type=compression)
+finally:
+    print 'closing'
+    zf.close()
+
+print
+print_info('zipfile_write_compression.zip')
+
+
+
+
+
+
+
+
+
+
+
+=head2 ZIP and Compress
+
+=head3 _get_filelist_from_zip
+
+	This is the method used to get file list from zip.
+
+	Function Name: _get_filelist_from_ziph(<zip_file_path>)
+	Arguments    : Arg1 => Zip file name with path
+	Return       : Return array of list of files/folder in zip
+	Usage        : _get_filelist_from_zip($zipfile);
+
+=cut
+
+sub _get_filelist_from_zip
+{
+	_exit_sub("Invalid input zip path") if(not (defined($_[0]) && -f "$_[0]"));
+	my $mypath = shift;
+	
+	_exit_sub("Invalid input zip path") if($mypath !~ m{\.zip$}i);
+
+	use Archive::Zip;
+	my $zip = Archive::Zip->new($mypath);
+	my @mbrs = $zip->memberNames();
+	return @mbrs;
+}
+
+
+
+
+import zipfile
+zz = zipfile.ZipFile('z.zip')
+zz.printdir()
+for name in zz.namelist():
+    print '%s: %r' % (name, zz.read(name))
+zz.close()
+
+from zipfile_infolist import print_info
+import zipfile
+
+msg = 'This data did not exist in a file before being added to the ZIP file'
+zf = zipfile.ZipFile('zipfile_writestr.zip', 
+                     mode='w',
+                     compression=zipfile.ZIP_DEFLATED, 
+                     )
+try:
+    zf.writestr('from_string.txt', msg)
+finally:
+    zf.close()
+
+print_info('zipfile_writestr.zip')
+
+zf = zipfile.ZipFile('zipfile_writestr.zip', 'r')
+print zf.read('from_string.txt')
+
+
+
+
+
+
+
+
