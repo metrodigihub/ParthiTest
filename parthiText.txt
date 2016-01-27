@@ -1,1 +1,82 @@
 
+file_ = open('Failed.py', 'w')
+file_.write('whatever')
+file_.close()
+
+with open('Failed.py', 'w') as file_:
+    file_.write('whatever')
+    
+    with open('Failed.txt', 'w') as f:
+    for ip in [k for k, v in ips.iteritems() if v >=5]:
+        f.write(ip)
+    
+    ips = {}
+with open('today','r') as myFile:
+    for line in myFile:
+        parts = line.split(' ')
+        if parts[1] == 'Failure':
+            if parts[0] in ips:
+                ips[pars[0]] += 1
+            else:
+                ips[parts[0]] = 0
+                
+                
+
+
+
+
+
+
+=head3 _save_file
+
+	This is the method used to "Save all content" in specified file path.
+
+	Function Name: _save_file(<filepath>, <content>)
+	Arguments    : Arg1 => File name with path, Arg2 => Content
+	Return       : 1 - for succeed
+	Usage        : _save_file($out_path, $content);
+
+=cut
+
+sub _save_file
+{
+	_exit_sub("File path required for SaveFile") if(not defined($_[0]));
+	_exit_sub("File path required for SaveFile") if($_[0] eq "");
+	my $filepath = shift;
+	
+	_exit_sub("File Content required for SaveFile") if(not defined($_[0]));
+	_exit_sub("File Content required for SaveFile") if($_[0] eq "");
+	my $content = shift;
+	
+	open(OUT,">$filepath") or _exit_sub("Unable to create $filepath");
+	print OUT $content;
+	close OUT;
+	
+	if(-f $filepath) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+	
+}
+
+ down vote
+	
+
+myFile = open('today','r')
+
+ips = {}
+
+for line in myFile:
+    parts = line.split()
+    if parts[1] == 'Failure':
+        ips.setdefault(parts[0], 0)
+        ips[parts[0]] += 1
+
+of = open('failed.py', 'w')
+for ip in [k for k, v in ips.iteritems() if v >=5]:
+    of.write(k+'\n')
+
+
+#----------
