@@ -27,39 +27,6 @@ with open('today','r') as myFile:
 
 
 
-=head3 _save_file
-
-	This is the method used to "Save all content" in specified file path.
-
-	Function Name: _save_file(<filepath>, <content>)
-	Arguments    : Arg1 => File name with path, Arg2 => Content
-	Return       : 1 - for succeed
-	Usage        : _save_file($out_path, $content);
-
-=cut
-
-sub _save_file
-{
-	_exit_sub("File path required for SaveFile") if(not defined($_[0]));
-	_exit_sub("File path required for SaveFile") if($_[0] eq "");
-	my $filepath = shift;
-	
-	_exit_sub("File Content required for SaveFile") if(not defined($_[0]));
-	_exit_sub("File Content required for SaveFile") if($_[0] eq "");
-	my $content = shift;
-	
-	open(OUT,">$filepath") or _exit_sub("Unable to create $filepath");
-	print OUT $content;
-	close OUT;
-	
-	if(-f $filepath) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-	
-}
 
  down vote
 	
